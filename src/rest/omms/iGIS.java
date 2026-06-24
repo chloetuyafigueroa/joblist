@@ -57,7 +57,6 @@ public class iGIS extends HttpServlet {
 	public void restart() throws ServletException, SerialPortException {
 		System.out.println("Restarting....");
         destroy();  // Clean up resources
-        MetaData.smsModule.disconnect();
         init();  // Reinitialize
     }
 	
