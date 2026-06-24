@@ -53,7 +53,7 @@ public class Main extends HttpServlet {
   public void doPost (HttpServletRequest _req, HttpServletResponse _res)
     throws ServletException, IOException {
 	    
-	  smsModule=MetaData.smsModule; 
+	  //smsModule=MetaData.smsModule; 
     /* Refresh session attributes */
     session = _req.getSession();
     session.removeAttribute("loginError");
@@ -104,7 +104,7 @@ public class Main extends HttpServlet {
     	 if(! MetaData.isOpened) {
 	    	 try {
 	    		
-				 smsModule.connect();
+				 //smsModule.connect();
 				 _res.setContentType("text/html;charset=UTF-8");
 		    	 _res.getWriter().write("success!");
 	    	 } catch (SerialPortException e) {
@@ -116,7 +116,7 @@ public class Main extends HttpServlet {
     	 }	
     	 
 	 	try {
-			smsModule.startListening();
+			//smsModule.startListening();
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -127,7 +127,7 @@ public class Main extends HttpServlet {
      else if (action.equals("stoplisten")) {
     	 System.out.println(_req.getReader());
     	 try {
-			smsModule.stopListening();
+			//smsModule.stopListening();
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -138,14 +138,14 @@ public class Main extends HttpServlet {
       }
      else if (action.equals("debug")) {
     	 System.out.println(_req.getReader());
-    	 smsModule.debugConnection(); 
+    	 //smsModule.debugConnection(); 
     	 _res.setContentType("text/html;charset=UTF-8");
     	 _res.getWriter().write("debuged!");
        	 	
       }
      else if (action.equals("readserial")) {
     	 _res.setContentType("text/html;charset=UTF-8");
-    	 _res.getWriter().write(smsModule.readSerial(comPort));
+    	 //_res.getWriter().write(smsModule.readSerial(comPort));
      }
      else if (action.equals("delete")) {
     	 JsonParser parser = new JsonParser();
@@ -162,7 +162,7 @@ public class Main extends HttpServlet {
 		JsonArray arr = (JsonArray) parser.parse(_req.getReader());
 		Boolean sent = null;
 		try {
-			sent = smsModule.sendSMS(arr.get(0).toString().replace("\"", ""), arr.get(1).toString().replace("\"", ""), arr.get(2).toString().replace("\"", ""));
+			//sent = smsModule.sendSMS(arr.get(0).toString().replace("\"", ""), arr.get(1).toString().replace("\"", ""), arr.get(2).toString().replace("\"", ""));
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -182,12 +182,12 @@ public class Main extends HttpServlet {
     	
 		try {
 			try {
-				UserService.storeSMS(smsModule.readSMSPdu(3000,comPort),null);
+				//UserService.storeSMS(smsModule.readSMSPdu(3000,comPort),null);
 			} catch (SQLException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			xString = String.valueOf(smsModule.readSMSPdu(3000,comPort));
+			//xString = String.valueOf(smsModule.readSMSPdu(3000,comPort));
 		} catch (IllegalAccessException | SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -221,7 +221,7 @@ public class Main extends HttpServlet {
      else if (action.equals("close")) {    	 
     	 
     	 try {
-			smsModule.disconnect();
+			//smsModule.disconnect();
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
