@@ -205,13 +205,13 @@ public class UserService  {
    
    public static void deleteSMS(JSONArray cMList,String sp) {
 	   System.out.println("From UserService.deleteSMS()");
-	   SmsModule smsModule=MetaData.smsModule;
+	   //SmsModule smsModule=MetaData.smsModule;
 	   for(int i=0;i<cMList.length();i++) {
 		   System.out.println(cMList.get(i));
 		   String cMGL=cMList.get(i).toString();
 		   Boolean deleted=false;
 		   while(!deleted) {
-	            deleted=deleted(smsModule.deleteSMS(Integer.valueOf(cMGL), 0,sp));
+	            //deleted=deleted(smsModule.deleteSMS(Integer.valueOf(cMGL), 0,sp));
 		   //     SMSTranceiver.deleteSMS(Integer.valueOf(cMGL), 0,sp);
 		   }
 	   }
@@ -258,13 +258,13 @@ public class UserService  {
 	           
 	          // FCMAsyncTasks.ruN("omms",phone,message,sp,jObb);
 		       /**/ 
-		      if(MetaData.smsModule.sendSMS(phone,message,sp)) {
+		      //if(MetaData.smsModule.sendSMS(phone,message,sp)) {
 			  	   PreparedStatement pstmt = con.prepareStatement("DELETE FROM SMS2 WHERE ID="+id);
 			   	   pstmt.executeUpdate();
 			  	   pstmt.close();
 			  	 System.out.println("message sent"); 
 		  	  }
-		      else if(MetaData.smsModule.sendSMS(phone,message,sp)) {
+		      //else if(MetaData.smsModule.sendSMS(phone,message,sp)) {
 			  	   PreparedStatement pstmt = con.prepareStatement("DELETE FROM SMS2 WHERE ID="+id);
 			   	   pstmt.executeUpdate();
 			  	   pstmt.close();
