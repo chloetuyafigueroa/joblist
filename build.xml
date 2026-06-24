@@ -1,0 +1,33 @@
+<project name="Omms" default="war" basedir=".">
+
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="WebContent"/>
+    <property name="build.dir" value="build/classes"/>
+    <property name="dist.dir" value="dist"/>
+    <property name="war.file" value="${dist.dir}/Joblist.war"/>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete dir="dist"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${build.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" source="1.8" target="1.8">
+            <classpath>
+                <fileset dir="${web.dir}/WEB-INF/lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="war" depends="clean,compile">
+        <mkdir dir="${dist.dir}"/>
+        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}"/>
+            <classes dir="${build.dir}"/>
+        </war>
+    </target>
+
+</project>
