@@ -12,7 +12,7 @@ FROM tomcat:9-jdk17
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=build /app/dist/Josblist.war /usr/local/tomcat/webapps/Joblist.war
+COPY --from=build /app/dist/Joblist.war /usr/local/tomcat/webapps/Joblist.war
 
 EXPOSE 8080
 
