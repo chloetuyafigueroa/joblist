@@ -36,7 +36,7 @@ public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static String uid;
 	private static String pwd;
-	private SmsModule smsModule;
+	//private SmsModule smsModule;
 	Connection dbCon;
 	  //DataSource ds;
 	  HttpSession session;
@@ -90,7 +90,7 @@ public class Main extends HttpServlet {
  		 JsonArray arr = (JsonArray) parser.parse(_req.getReader());
  		 comPort=arr.get(0).toString().replace("\"", "");
  		
-		 yString = smsModule.readSMS(3000,comPort);	
+		 //yString = smsModule.readSMS(3000,comPort);	
           
     	 	
     	 _res.setContentType("text/html;charset=UTF-8");
@@ -151,7 +151,7 @@ public class Main extends HttpServlet {
     	 JsonParser parser = new JsonParser();
  		 JsonArray arr = (JsonArray) parser.parse(_req.getReader());
  		
- 			yString = smsModule.deleteSMS(Integer.valueOf(arr.get(0).toString().replace("\"", "")), Integer.valueOf(arr.get(1).toString().replace("\"", "")), arr.get(2).toString().replace("\"", ""));
+ 			//yString = smsModule.deleteSMS(Integer.valueOf(arr.get(0).toString().replace("\"", "")), Integer.valueOf(arr.get(1).toString().replace("\"", "")), arr.get(2).toString().replace("\"", ""));
  		
  		 _res.setContentType("text/html;charset=UTF-8");
     	 _res.getWriter().write(yString);
@@ -200,11 +200,11 @@ public class Main extends HttpServlet {
      else if (action.equals("open")) {    
     	 System.out.println(_req.getReader());
     	 //smsModule = new SmsModule("COM4"); // Replace with your port
-    	 smsModule=MetaData.smsModule;
+    	 //smsModule=MetaData.smsModule;
     	 if(! MetaData.isOpened) {
 	    	 try {
 	    		
-				 smsModule.connect();
+				 //smsModule.connect();
 				 _res.setContentType("text/html;charset=UTF-8");
 		    	 _res.getWriter().write("success!");
 	    	 } catch (SerialPortException e) {
