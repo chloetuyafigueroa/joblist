@@ -46,10 +46,7 @@ public class Main extends HttpServlet {
 		//public static String dbURL = "jdbc:postgresql:joblist?user=postgres&password=03_0431A"; //ileco1_amfm
 
   /* Initialize servlet. Use JNDI to look up a DataSource */
-	  public static void main(String[] args) throws IOException, ServletException, Exception {
-		  iGIS igis=new iGIS();
-		  igis.restart();
-	  }
+	  
   public void doPost (HttpServletRequest _req, HttpServletResponse _res)
     throws ServletException, IOException {
 	    
@@ -100,21 +97,7 @@ public class Main extends HttpServlet {
      else if (action.equals("listen")) {
     	 System.out.println("..listening...");
     	 //smsModule = new SmsModule("COM4"); // Replace with your port
-    	 
-    	 if(! MetaData.isOpened) {
-	    	 try {
-	    		
-				 //smsModule.connect();
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("success!");
-	    	 } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println(e.toString());;
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("failed!");
-	    	 }
-    	 }	
+    	
     	 
 	 	try {
 			//smsModule.startListening();
@@ -207,21 +190,7 @@ public class Main extends HttpServlet {
     	 System.out.println(_req.getReader());
     	 //smsModule = new SmsModule("COM4"); // Replace with your port
     	 //smsModule=MetaData.smsModule;
-    	 if(! MetaData.isOpened) {
-	    	 try {
-	    		
-				 //smsModule.connect();
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("success!");
-	    	 } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println(e.toString());;
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("failed!");
-	    	 }
-	    	 	//smsModule.startListening();         
-    	 }	
+    	 	
     	
         	 	
        }
@@ -274,116 +243,25 @@ public class Main extends HttpServlet {
   	    ResultSet rs = null;
   	    //Connection c = null;
   	    //String dbURL = "jdbc:postgresql:joblist?user=postgres&password=03_0431A";
-  	    try {
-  	       //Class.forName("org.postgresql.Driver");
-  	       System.out.println(_uid+":"+_pwd);
-  	       //dbCon =  DriverManager.getConnection(dbURL);
-  	       dbCon=DatabaseConnection.getInstance().getConnection();
-  	  
-  	      Statement s = dbCon.createStatement();
-  	      rs = s.executeQuery("select * from users where id = '"
-  	              + _uid + "' and pwd = '" + _pwd + "'");
-  	      return (rs.next());
-  	    }
-      catch (java.sql.SQLException e) {
-        System.out.println("A problem occurred while accessing the database.");
-        System.out.println(e.toString());
-      }
+  	   
       
       
       return false;
 
     }
 
-    /* Using the CustomerBean, record the data */
-    public boolean recordSurvey(HttpServletRequest _req) {
+    
 
-     // Connection dbCon = null;
-      try {
-        //dbCon = DriverManager.getConnection(dbURL);
-        dbCon=DatabaseConnection.getInstance().getConnection();
-        CustomerBean cBean = new CustomerBean();
-        cBean.populateFromParms(_req);
-        return cBean.submit(dbCon);
-      }
-      finally {
-        try {
-          dbCon.close();
-        }
-        catch (SQLException e) {
-          System.out.println("A problem occurred while closing the database.");
-          System.out.println(e.toString());
-        }
-      }
-    }
+    
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String action = request.getParameter("action");
         //Storage storage = getStorage(); 
     	// Authenticate user if request comes from login page
-        if (action.equals("restart")) {
-        	iGIS igis=new iGIS();
-    		  try {
-				igis.restart();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println(e.toString());
-			}
-    		  response.getWriter().write("Servlet restarted successfully.");
-        } else {
-        	 response.getWriter().write("Servlet is running.");
-        }
       
-		String uname=request.getParameter("uname");
-    	List<User4> uSEr = getUser(uname);
-    	String json = new Gson().toJson(uSEr);
-	    
-	    response.setContentType("text/html;charset=UTF-8");
-	    response.getWriter().write(json);
-	    System.out.println(json);
 	}
     
   
-    public List<User4> getUser(String uname){ 
-	  	
-	    List<User4> user_data = new ArrayList<>();
-	    //List<> userList = new Gson().fromJSON(jsonPerson, new TypeToken<List<Person>>() {}getType());
-	    Connection dbCon = null;
-	    try {
-	       //Class.forName("org.postgresql.Driver");
-	       //dbCon = DriverManager.getConnection(dbURL);
-	       dbCon=DatabaseConnection.getInstance().getConnection();
-	       Statement stmt = dbCon.createStatement();
-	       
-	       rs = stmt.executeQuery( "SELECT * FROM USERS WHERE ID='"+uname+"'"); //
-	       while ( rs.next() ) {
-		          String id = rs.getString("id");
-		          String phone =  rs.getString("phone");
-		          String role =  rs.getString("role");
-		          
-		
-		        User4 p1 = new User4();
-		  		p1.setID(id);
-		  		p1.setPassword("****");
-		  		p1.setPhone(phone);
-		  		p1.setRole(role);
-		  		user_data.add(p1);
-		       }
-	    
-	       rs.close();
-	       stmt.close();
-	       //dbCon.close();
-	     
-	 
-	    } catch ( Exception e ) {
-		         System.err.println( "User.Main-"+e.getClass().getName()+": "+ e.getMessage() );
-		         System.exit(0);
-		      }
-		return user_data;
-		      
-		      
- }  
-  
+   
     public static String smstest="omms\\09173144410230208161528230208161500\\*SESE RIO\\2421930400506007148090100200300400\\low\\*LOW VOLTAGE 180V LNG SECONDARY TERMINAL LOOSE CONNECTION SECONDARY TERMINAL OF TRANSFORMER\\*TUBANG BASKETBALL COURT\\*\\*\\10.7001467\\122.3901127\\*";
 	     
     
