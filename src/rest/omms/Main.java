@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import jssc.SerialPortException;
+import jssc.Exception;
 
 
 
@@ -46,7 +46,7 @@ public class Main extends HttpServlet {
 		//public static String dbURL = "jdbc:postgresql:joblist?user=postgres&password=03_0431A"; //ileco1_amfm
 
   /* Initialize servlet. Use JNDI to look up a DataSource */
-	  public static void main(String[] args) throws IOException, ServletException, SerialPortException {
+	  public static void main(String[] args) throws IOException, ServletException, Exception {
 		  iGIS igis=new iGIS();
 		  igis.restart();
 	  }
@@ -107,7 +107,7 @@ public class Main extends HttpServlet {
 				 //smsModule.connect();
 				 _res.setContentType("text/html;charset=UTF-8");
 		    	 _res.getWriter().write("success!");
-	    	 } catch (SerialPortException e) {
+	    	 } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.toString());;
@@ -118,7 +118,7 @@ public class Main extends HttpServlet {
     	 
 	 	try {
 			//smsModule.startListening();
-		} catch (SerialPortException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.toString());;
@@ -130,7 +130,7 @@ public class Main extends HttpServlet {
     	 System.out.println(_req.getReader());
     	 try {
 			//smsModule.stopListening();
-		} catch (SerialPortException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.toString());;
@@ -166,7 +166,7 @@ public class Main extends HttpServlet {
 		Boolean sent = null;
 		try {
 			//sent = smsModule.sendSMS(arr.get(0).toString().replace("\"", ""), arr.get(1).toString().replace("\"", ""), arr.get(2).toString().replace("\"", ""));
-		} catch (SerialPortException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.toString());;
@@ -187,13 +187,13 @@ public class Main extends HttpServlet {
 		try {
 			try {
 				//UserService.storeSMS(smsModule.readSMSPdu(3000,comPort),null);
-			} catch (SQLException | InterruptedException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.toString());;
 			}
 			//xString = String.valueOf(smsModule.readSMSPdu(3000,comPort));
-		} catch (IllegalAccessException | SerialPortException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.toString());;
@@ -213,7 +213,7 @@ public class Main extends HttpServlet {
 				 //smsModule.connect();
 				 _res.setContentType("text/html;charset=UTF-8");
 		    	 _res.getWriter().write("success!");
-	    	 } catch (SerialPortException e) {
+	    	 } catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.toString());;
@@ -229,7 +229,7 @@ public class Main extends HttpServlet {
     	 
     	 try {
 			//smsModule.disconnect();
-		} catch (SerialPortException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e.toString());;
@@ -324,7 +324,7 @@ public class Main extends HttpServlet {
         	iGIS igis=new iGIS();
     		  try {
 				igis.restart();
-			} catch (ServletException | SerialPortException e) {
+			} catch (ServletException | Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.toString());
