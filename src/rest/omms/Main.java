@@ -25,7 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import jssc.Exception;
+//import jssc.Exception;
 
 
 
@@ -324,7 +324,7 @@ public class Main extends HttpServlet {
         	iGIS igis=new iGIS();
     		  try {
 				igis.restart();
-			} catch (ServletException | Exception e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.out.println(e.toString());
