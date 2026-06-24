@@ -91,7 +91,7 @@ public class iGIS extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}/**/
-		  wesm();
+		  //wesm();
 	  }
 	  
 	  public static void wesm() throws IOException {
