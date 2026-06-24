@@ -149,18 +149,7 @@ public class UserService  {
        
        System.out.println(phone+","+message);
    }
-   public static void readSMS(int TD, String sp) throws IllegalAccessException, SerialPortException, InterruptedException, SQLException{
-	   //System.out.println("From UserService.readSMS(TD)");
-	   //storeSMS(MetaData.smsModule.readSMSPdu(TD,sp),sp);
-	   //System.out.println("JSONArray:"+SMSTranceiver.readSMSPdu(TD,sp));
-   }
-   public static String ArrToString(JSONArray jArr) {
-		String x="";
-		for(int i=0;i<jArr.length();i++) {
-			x=x+jArr.get(i);
-		}
-		return x;
-	}
+   
    public static void storeSMS(JSONArray arr, String sp) throws IllegalAccessException, SQLException, InterruptedException {
 	   System.out.println("From UserService.storeSMS");
 	   System.out.println(arr.length());
@@ -203,94 +192,11 @@ public class UserService  {
 	   }		  
   }
    
-   public static void deleteSMS(JSONArray cMList,String sp) {
-	   System.out.println("From UserService.deleteSMS()");
-	   //SmsModule smsModule=MetaData.smsModule;
-	   for(int i=0;i<cMList.length();i++) {
-		   System.out.println(cMList.get(i));
-		   String cMGL=cMList.get(i).toString();
-		   Boolean deleted=false;
-		   while(!deleted) {
-	            //deleted=deleted(smsModule.deleteSMS(Integer.valueOf(cMGL), 0,sp));
-		   //     SMSTranceiver.deleteSMS(Integer.valueOf(cMGL), 0,sp);
-		   }
-	   }
-   }
-   public static Boolean deleted(String xString)  {
-   	Boolean deleted=false;
-   	int okCount=0;
-   	System.out.println((xString));
-   	if(xString!=null) {
-	    	Scanner scanner = new Scanner(xString);
-	    	while (scanner.hasNextLine()) {
-	    		String line = scanner.nextLine();
-		         if(line.equals("OK")) { 
-		        	 okCount++;
-		         }   
-	        }       
-	        scanner.close();
-	        if(okCount>0) {deleted=true;}
-	        System.out.println("deleted:"+deleted);
-   	}
-   	return deleted;
-   }
+   
    public static List<String> CMGList(String str){
 		  return Arrays.asList(str.split(","));
 	  }
-   public static void sendSMS(String sp){ 
-	   System.out.println("From UserService.sendSMS()");
-	    //Connection con = null;
-	    Statement stmt = null;
-	    try {
-	       //Class.forName("org.postgresql.Driver");
-	       //c = DriverManager.getConnection(url,user, password);
-	       Connection con=dataSource.getConnection();
-	       //c.setAutoCommit(false);
-	      //System.out.println("Opened database successfully");
-
-	       stmt = con.createStatement();
-	       ResultSet rs = stmt.executeQuery( "SELECT * FROM SMS2;" );
-	       while ( rs.next() ) {
-	           int id = rs.getInt("id");
-	           String  phone = rs.getString("phone").toString().replace("\"", "\\");
-	           String  message = rs.getString("message").toString().replace("\"", "\\");//.replace("\\", "\\\\");
-	           System.out.println(phone+"-"+message); 
-	           
-	          // FCMAsyncTasks.ruN("omms",phone,message,sp,jObb);
-		       /**/ 
-		      //if(MetaData.smsModule.sendSMS(phone,message,sp)) {
-			  	   PreparedStatement pstmt = con.prepareStatement("DELETE FROM SMS2 WHERE ID="+id);
-			   	   pstmt.executeUpdate();
-			  	   pstmt.close();
-			  	 System.out.println("message sent"); 
-		  	  }
-		      //else if(MetaData.smsModule.sendSMS(phone,message,sp)) {
-			  	   PreparedStatement pstmt = con.prepareStatement("DELETE FROM SMS2 WHERE ID="+id);
-			   	   pstmt.executeUpdate();
-			  	   pstmt.close();
-			  	 System.out.println("message sent"); 
-		  	  }
-		      else {
-			  	   PreparedStatement pstmt = con.prepareStatement("DELETE FROM SMS2 WHERE ID="+id);
-			   	   pstmt.executeUpdate();
-			  	   pstmt.close();
-			  	 System.out.println("deleted with error"); 
-		  	  }
-		    	  /**/
-	       }
-	       
-	       rs.close();
-	       stmt.close();
-	       con.close();
-	 
-	    } catch ( Exception e ) {
-		         System.err.println( e.getClass().getName()+": "+ e.getMessage() );
-		         //System.exit(0);
-		      }
-		      
-		      //System.out.println("Operation done successfully");
-	    
-	 }
+   
    static String jsonString = "{\"title\":\"FCM\", \"body\":\"This is a custom notification body.\"}";
    static JSONObject jObb= new JSONObject(jsonString);
    public static String message="omms\\09778572405230630093941230630093955\\*ecf_chloe\\1120130400506007018090100200300400\\high\\*\\*\\*\\*\\10.85926957\\122.3694992\\*";
