@@ -150,8 +150,8 @@ public class UserService  {
        System.out.println(phone+","+message);
    }
    public static void readSMS(int TD, String sp) throws IllegalAccessException, SerialPortException, InterruptedException, SQLException{
-	   System.out.println("From UserService.readSMS(TD)");
-	   storeSMS(MetaData.smsModule.readSMSPdu(TD,sp),sp);
+	   //System.out.println("From UserService.readSMS(TD)");
+	   //storeSMS(MetaData.smsModule.readSMSPdu(TD,sp),sp);
 	   //System.out.println("JSONArray:"+SMSTranceiver.readSMSPdu(TD,sp));
    }
    public static String ArrToString(JSONArray jArr) {
