@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Joblist|Home</title>
+    
+   <script src="../Joblist/js/angular.min.js"></script>
+   <script type="text/javascript"  src="../Joblist/js/home.js"></script>
+   <link rel="shortcut icon" href="../Joblist/img/logo.png"/>
+</head>
+<body>
+ <div id ="ID1" ng-app="firstAPP" ng-controller="myCtrl1">
+ <input type="text" ng-model="comPort">
+ <button  ng-click="Open()">Open Port</button>
+ <button ng-click="Close()">Close Port</button>
+ <button ng-click="Restart()">Restart iGIS</button>
+ <br>
+ <br> 
+ <button  ng-click="readSMS()">Read SMS</button>
+ <button  ng-click="readSerial()">Read Serial</button>
+ <button  ng-click="sendSocket('test')">Send to WebSocket</button>
+ <button  ng-click="Listen()">Start sms listening</button>
+ <button  ng-click="stopListen()">Stop sms listening</button>
+ <button  ng-click="debug()">Debug</button>
+ <br>
+ <br>
+ <input type="text" ng-model="CMGL">
+ <button  ng-click="deleteSMS()">Delete SMS</button>
+ <br>
+ <br>
+ SMS PDU
+ <input type="text" ng-model="Add">
+ <textarea type="text" ng-model="Msg"></textarea>
+ <button  ng-click="sendSMSPDU()">Send SMS</button>
+ <br>
+ {{sendStatus}}
+ <br>
+ <button id="read" ng-click="readSMSPDU()">Read SMS</button>
+ <br>
+ {{message}}
+ 
+ </div> 
+
+</body>
+</html> 

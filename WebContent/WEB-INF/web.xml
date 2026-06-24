@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+   <display-name>Joblist</display-name> 
+   <welcome-file-list>
+		<welcome-file>login.html</welcome-file>
+
+	</welcome-file-list>
+	
+	<servlet>
+        <servlet-name>
+            Main
+        </servlet-name>
+        <servlet-class>
+            rest.omms.Main
+        </servlet-class>
+       <load-on-startup>1</load-on-startup>  
+	</servlet>
+    <servlet-mapping>
+        <servlet-name>
+            Main
+        </servlet-name>
+        <url-pattern>
+            /Main
+        </url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>
+            iGIS
+        </servlet-name>
+        <servlet-class>
+            rest.omms.iGIS
+        </servlet-class>
+       <load-on-startup>1</load-on-startup>  
+	</servlet>
+    <servlet-mapping>
+        <servlet-name>
+            iGIS
+        </servlet-name>
+        <url-pattern>
+            /iGIS
+        </url-pattern>
+    </servlet-mapping>
+    
+     <servlet>
+        <servlet-name>
+            iGIS2
+        </servlet-name>
+        <servlet-class>
+            rest.omms.iGIS2
+        </servlet-class>
+       <load-on-startup>1</load-on-startup>  
+	</servlet>
+    <servlet-mapping>
+        <servlet-name>
+            iGIS2
+        </servlet-name>
+        <url-pattern>
+            /iGIS2
+        </url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>
+            FCMServlet
+        </servlet-name>
+        <servlet-class>
+            rest.omms.FCMServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+	</servlet>
+    <servlet-mapping>
+        <servlet-name>
+            FCMServlet
+        </servlet-name>
+        <url-pattern>
+            /FCMServlet
+        </url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>
+            JsonServlet
+        </servlet-name>
+        <servlet-class>
+            rest.omms.JsonServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+	</servlet>
+    <servlet-mapping>
+        <servlet-name>
+            JsonServlet
+        </servlet-name>
+        <url-pattern>
+            /JsonServlet/*
+        </url-pattern>
+    </servlet-mapping>
+    
+   <servlet>  
+      <servlet-name>Jersey RESTful Application</servlet-name>
+      <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class> 
+      <init-param> 
+         <param-name>jersey.config.server.provider.packages</param-name> 
+         <param-value>rest.omms</param-value> 
+      </init-param> 
+   </servlet> 
+   <servlet-mapping> 
+      <servlet-name>Jersey RESTful Application</servlet-name> 
+      <url-pattern>/rest/*</url-pattern> 
+   </servlet-mapping>   
+   
+
+</web-app>

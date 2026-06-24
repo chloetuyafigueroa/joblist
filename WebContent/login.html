@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>OMMS_API|ILECO-1</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+ <script type="text/javascript"  src="../Joblist/js/login1.0.9.js"></script>
+ <link href="../Joblist/css/login1.0.0.css"  rel="stylesheet" type="text/css">
+ <link rel="shortcut icon" href="../Joblist/img/logo.png"/>
+</head>
+<body>
+
+
+    <h2> Welcome to OMMS!</h2>
+    
+   <button onclick="document. getElementById('id02') 
+    .style.display='block'" style="width:auto;">Login 
+    </button>
+    
+   <div id ="ID1" ng-app="firstAPP" ng-controller="myCtrl1">
+   
+     <div id="id02" class="modals"> 
+        <form  method="post" class="modal-content animate" action="Main?action=login"> 
+            <div class="imgcontainer"> 
+            <span onclick="document.getElementById('id02') 
+            .style.display='none'" class="close" title="Close Modal"> &times;
+            </span> <img src="../Joblist/img/logo.png" alt="Avatar" class="avatar"> 
+            </div> 
+            <div class="container"> 
+                <label><b>Username</b></label>
+                 <input type="text" ng-model="uname" placeholder= "Enter Username" name="UID" required> 
+                 <label><b>Password</b></label> 
+                 <input type="password" ng-model="pswd" placeholder= "Enter Password" name="PWD" required>
+                  <button type="submit">Login</button> 
+                  <input type="checkbox" checked="checked"> Remember me 
+            </div>
+             <div class="container" style="background-color:#f1f1f1">
+                 <button type="button" onclick="document.getElementById ('id02')
+                 .style. display='none'" class="cancelbtn"> Cancel
+                 </button> 
+                 <span class="psw">Forgot <a href="#">password? </a>
+                </span>
+            </div>
+         </form> 
+        </div> 
+      </div> 
+        
+        
+        <script> // Get the modal 
+        
+        var modal = document.getElementById ('id02'); 
+        // When the user clicks anywhere outside of the modal, close it 
+        window.onclick = function(event) { if (event.target == modal) 
+        { modal.style.display = "none"; } } 
+        </script>
+</body>
+</html>
