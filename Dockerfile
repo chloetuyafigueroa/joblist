@@ -6,13 +6,13 @@ WORKDIR /app
 COPY . .
 
 RUN ant war
-RUN jar tf /app/dist/Omms.war > /tmp/war_check.txt
+RUN jar tf /app/dist/Joblist.war > /tmp/war_check.txt
 
 FROM tomcat:9-jdk17
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=build /app/dist/Omms.war /usr/local/tomcat/webapps/Omms.war
+COPY --from=build /app/dist/Omms.war /usr/local/tomcat/webapps/Joblist.war
 
 EXPOSE 8080
 
