@@ -72,16 +72,7 @@ public class iGIS extends HttpServlet {
 			e.printStackTrace();
 		}/**
         
-		SmsModule smsModule = new SmsModule("COM4"); // Replace with your port
-		MetaData.smsModule=smsModule;
-    	 try {
-			smsModule.connect();
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}/**/
-    	//smsModule.startListening(); 
-    	 //smsModule.startSMSListening();
+		
 		ruN() ; 
 		 
 	}
@@ -138,35 +129,7 @@ public class iGIS extends HttpServlet {
 		  //String sp=serialPort();
 		  
 		  
-		  
-		  ScheduledThreadPoolExecutor executor=new ScheduledThreadPoolExecutor(2);
-		  	  executor.scheduleAtFixedRate(new Runnable() {
-		  		  public void run() {
-		  			//SMSTranceiver.deleteAllSMS(sp);
-		  			System.out.println("From iGIS");		
-		  			/**/
-		  			//HikariCPStatus();			
-	  			       //if(counter<5) {
-	  			    	   System.out.println("reading inbox....");		
-	  			            	try {
-									UserService.readSMS(3000,sp);
-								} catch (IllegalAccessException | SerialPortException | InterruptedException
-										| SQLException e) {
-									System.out.println("Error:"+e);	 
-								}
-	  			     /**/      	//counter++;
-	  			       //}else {
-	  			    	   		System.out.println("sending mode....");	
-	  			            	System.out.println(sp);
-		  			  			UserService.sendSMS(sp);
-	  			            	//log.info("From iGIS"); 
-	  			       //}	 /**/	   
-		  							
-		  			//FCMAsyncTasks.ruN("omms",phone,message,sp,jObb);
-		  						
-		  			  	}
-		  		  
-		  		  } , 1, 30, TimeUnit.SECONDS);
+		
 		  /**/
 	  }
 	  /**public static void HikariCPStatus(){
