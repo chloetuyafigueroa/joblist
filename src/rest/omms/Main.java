@@ -110,6 +110,7 @@ public class Main extends HttpServlet {
 	    	 } catch (SerialPortException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println(e.toString());;
 				 _res.setContentType("text/html;charset=UTF-8");
 		    	 _res.getWriter().write("failed!");
 	    	 }
@@ -120,6 +121,7 @@ public class Main extends HttpServlet {
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.toString());;
 		}         
     	
        	 	
@@ -131,6 +133,7 @@ public class Main extends HttpServlet {
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.toString());;
 		} 
     	 _res.setContentType("text/html;charset=UTF-8");
     	 _res.getWriter().write("stoped!");
@@ -166,6 +169,7 @@ public class Main extends HttpServlet {
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.toString());;
 		}
 		System.out.println(arr); 
 		String textString="Please wait while sending...";
@@ -186,11 +190,13 @@ public class Main extends HttpServlet {
 			} catch (SQLException | InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println(e.toString());;
 			}
 			//xString = String.valueOf(smsModule.readSMSPdu(3000,comPort));
 		} catch (IllegalAccessException | SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.toString());;
 		}
   
 		_res.setContentType("text/html;charset=UTF-8");
@@ -210,6 +216,7 @@ public class Main extends HttpServlet {
 	    	 } catch (SerialPortException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println(e.toString());;
 				 _res.setContentType("text/html;charset=UTF-8");
 		    	 _res.getWriter().write("failed!");
 	    	 }
@@ -225,6 +232,7 @@ public class Main extends HttpServlet {
 		} catch (SerialPortException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			System.out.println(e.toString());;
 		}  
         
      	  		
@@ -319,6 +327,7 @@ public class Main extends HttpServlet {
 			} catch (ServletException | SerialPortException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println(e.toString());
 			}
     		  response.getWriter().write("Servlet restarted successfully.");
         } else {
