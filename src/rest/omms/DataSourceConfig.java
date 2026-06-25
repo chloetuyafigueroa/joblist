@@ -34,10 +34,10 @@ public class DataSourceConfig implements ServletContextListener {
 			System.out.println("Error:"+e);
 		}
         //config.setJdbcUrl("jdbc:postgresql://localhost:5432/joblist");//172.17.100.6
-         //config.setJdbcUrl("jdbc:postgresql://172.17.100.6:5432/joblist");
-        config.setJdbcUrl("jdbc:postgresql://postgres:03_0431Achloe@db.pfonglwyrcfiigivcpoj.supabase.co:5432/postgres/ommscloud");
+        /**config.setJdbcUrl("jdbc:postgresql://172.17.100.6:5432/joblist");
         config.setUsername("postgres");
-        config.setPassword("03_0431A");
+        config.setPassword("03_0431A");/**/
+        config.setJdbcUrl(System.getenv("DATABASE_URL"));
         config.setMaximumPoolSize(30); // Set the maximum pool size
         config.setMinimumIdle(5); // Set the minimum idle connections
         config.setIdleTimeout(10000);
