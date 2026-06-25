@@ -36,7 +36,7 @@ public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	public static String uid;
 	private static String pwd;
-	private SmsModule smsModule;
+	//private SmsModule smsModule;
 	Connection dbCon;
 	  //DataSource ds;
 	  HttpSession session;
@@ -53,7 +53,7 @@ public class Main extends HttpServlet {
   public void doPost (HttpServletRequest _req, HttpServletResponse _res)
     throws ServletException, IOException {
 	    
-	  smsModule=MetaData.smsModule; 
+	  //smsModule=MetaData.smsModule; 
     /* Refresh session attributes */
     session = _req.getSession();
     session.removeAttribute("loginError");
@@ -95,7 +95,7 @@ public class Main extends HttpServlet {
  		 JsonArray arr = (JsonArray) parser.parse(_req.getReader());
  		 comPort=arr.get(0).toString().replace("\"", "");
  		
-		 yString = smsModule.readSMS(3000,comPort);	
+		 //yString = smsModule.readSMS(3000,comPort);	
           
     	 	
     	 _res.setContentType("text/html;charset=UTF-8");
@@ -107,56 +107,35 @@ public class Main extends HttpServlet {
     	 //smsModule = new SmsModule("COM4"); // Replace with your port
     	 
     	 if(! MetaData.isOpened) {
-	    	 try {
-	    		
-				 smsModule.connect();
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("success!");
-	    	 } catch (SerialPortException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("failed!");
-	    	 }
-    	 }	
-    	 
-	 	try {
-			smsModule.startListening();
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}         
+	    	 // smsModule.connect();
+			 _res.setContentType("text/html;charset=UTF-8");
+			 _res.getWriter().write("success!");
+    	 }         
     	
        	 	
       }
      else if (action.equals("stoplisten")) {
     	 System.out.println(_req.getReader());
-    	 try {
-			smsModule.stopListening();
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
     	 _res.setContentType("text/html;charset=UTF-8");
     	 _res.getWriter().write("stoped!");
        	 	
       }
      else if (action.equals("debug")) {
     	 System.out.println(_req.getReader());
-    	 smsModule.debugConnection(); 
+    	 //smsModule.debugConnection(); 
     	 _res.setContentType("text/html;charset=UTF-8");
     	 _res.getWriter().write("debuged!");
        	 	
       }
      else if (action.equals("readserial")) {
     	 _res.setContentType("text/html;charset=UTF-8");
-    	 _res.getWriter().write(smsModule.readSerial(comPort));
+    	// _res.getWriter().write(smsModule.readSerial(comPort));
      }
      else if (action.equals("delete")) {
     	 JsonParser parser = new JsonParser();
  		 JsonArray arr = (JsonArray) parser.parse(_req.getReader());
  		
- 			yString = smsModule.deleteSMS(Integer.valueOf(arr.get(0).toString().replace("\"", "")), Integer.valueOf(arr.get(1).toString().replace("\"", "")), arr.get(2).toString().replace("\"", ""));
+ 			//yString = smsModule.deleteSMS(Integer.valueOf(arr.get(0).toString().replace("\"", "")), Integer.valueOf(arr.get(1).toString().replace("\"", "")), arr.get(2).toString().replace("\"", ""));
  		
  		 _res.setContentType("text/html;charset=UTF-8");
     	 _res.getWriter().write(yString);
@@ -166,12 +145,6 @@ public class Main extends HttpServlet {
 		JsonParser parser = new JsonParser();
 		JsonArray arr = (JsonArray) parser.parse(_req.getReader());
 		Boolean sent = null;
-		try {
-			sent = smsModule.sendSMS(arr.get(0).toString().replace("\"", ""), arr.get(1).toString().replace("\"", ""), arr.get(2).toString().replace("\"", ""));
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		System.out.println(arr); 
 		String textString="Please wait while sending...";
 		 if(sent) {textString="Message Sent...";}
@@ -185,19 +158,6 @@ public class Main extends HttpServlet {
  		 JsonArray arr = (JsonArray) parser.parse(_req.getReader());
  		 comPort=arr.get(0).toString().replace("\"", "");
     	
-		try {
-			try {
-				UserService.storeSMS(smsModule.readSMSPdu(3000,comPort),null);
-			} catch (SQLException | InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			xString = String.valueOf(smsModule.readSMSPdu(3000,comPort));
-		} catch (IllegalAccessException | SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-  
 		_res.setContentType("text/html;charset=UTF-8");
     	_res.getWriter().write(xString);
        	 	
@@ -205,35 +165,18 @@ public class Main extends HttpServlet {
      else if (action.equals("open")) {    
     	 System.out.println(_req.getReader());
     	 //smsModule = new SmsModule("COM4"); // Replace with your port
-    	 smsModule=MetaData.smsModule;
+    	// smsModule=MetaData.smsModule;
     	 if(! MetaData.isOpened) {
-	    	 try {
-	    		
-				 smsModule.connect();
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("success!");
-	    	 } catch (SerialPortException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				 _res.setContentType("text/html;charset=UTF-8");
-		    	 _res.getWriter().write("failed!");
-	    	 }
-	    	 	//smsModule.startListening();         
+	    	 //smsModule.connect();
+			 _res.setContentType("text/html;charset=UTF-8");
+			 _res.getWriter().write("success!");
     	 }	
     	
         	 	
        }
      else if (action.equals("close")) {    	 
     	 
-    	 try {
-			smsModule.disconnect();
-		} catch (SerialPortException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-        
-     	  		
- 		_res.setContentType("text/html;charset=UTF-8");
+    	 _res.setContentType("text/html;charset=UTF-8");
      	_res.getWriter().write("Closed");
      	 	
     }

@@ -94,7 +94,7 @@ public class FCMAsyncTasks {
     public static CompletableFuture<Void> implementThirdTask() {
         return CompletableFuture.runAsync(() -> {
             // Your third task implementation
-        	SMSTranceiver.sendSMS(phone,message,sp);
+        	//SMSTranceiver.sendSMS(phone,message,sp);
             System.out.println("Implementing the third task...");
         });
     }

@@ -49,7 +49,7 @@ public class iGIS extends HttpServlet {
 	public void restart() throws ServletException, SerialPortException {
 		System.out.println("Restarting....");
         destroy();  // Clean up resources
-        MetaData.smsModule.disconnect();
+        //MetaData.smsModule.disconnect();
         init();  // Reinitialize
     }
 	
@@ -123,7 +123,7 @@ public class iGIS extends HttpServlet {
 	  			       //}else {
 	  			    	   		System.out.println("sending mode....");	
 	  			            	System.out.println(sp);
-		  			  			UserService.sendSMS(sp);
+		  			  			//UserService.sendSMS(sp);
 	  			            	//log.info("From iGIS"); 
 	  			       //}	 /**/	   
 		  							

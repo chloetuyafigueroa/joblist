@@ -85,14 +85,7 @@ public class FCMServlet extends HttpServlet {
         	String response="failed";
         	
         	Boolean sent=false;
-        	//while(!sent) {
-        		try {
-					sent=MetaData.smsModule.sendSMS(phone,"Your OTP Number is "+message,iGIS.sp);
-				} catch (SerialPortException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-        		if(sent) {
+        	if(sent) {
 	        		response="sent";
         		}else {response="unsent";}
 	        	try {

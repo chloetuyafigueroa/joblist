@@ -53,7 +53,7 @@ public class Chatbot extends HttpServlet {
 	public void restart() throws ServletException, SerialPortException {
 		System.out.println("Restarting....");
         destroy();  // Clean up resources
-        MetaData.smsModule.disconnect();
+        //MetaData.smsModule.disconnect();
         init();  // Reinitialize
     }
 	public static void main(String[] args) throws IllegalAccessException, JSONException, ClassNotFoundException {
