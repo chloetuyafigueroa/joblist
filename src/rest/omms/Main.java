@@ -236,26 +236,7 @@ public class Main extends HttpServlet {
     }
 
     /* Using the CustomerBean, record the data */
-    public boolean recordSurvey(HttpServletRequest _req) throws Exception {
-
-     // Connection dbCon = null;
-      try {
-        //dbCon = DriverManager.getConnection(dbURL);
-        dbCon=DatabaseConnection.getInstance().getConnection();
-        CustomerBean cBean = new CustomerBean();
-        cBean.populateFromParms(_req);
-        return cBean.submit(dbCon);
-      }
-      finally {
-        try {
-          dbCon.close();
-        }
-        catch (SQLException e) {
-          System.out.println("A problem occurred while closing the database.");
-          System.out.println(e.toString());
-        }
-      }
-    }
+   
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String action = request.getParameter("action");
         //Storage storage = getStorage(); 
