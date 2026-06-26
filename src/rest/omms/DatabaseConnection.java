@@ -25,7 +25,9 @@ public class DatabaseConnection {
     }
 
     public static Connection getConnection() throws Exception {
-        /**/ String url = System.getenv("DATABASE_URL");
+    	/**/ String url = System.getenv("DB_URL");
+   	 	String username = System.getenv("DB_USER");
+   	 	String password = System.getenv("DB_PASSWORD");
 
          if (url == null || url.isEmpty()) {
              throw new RuntimeException("DATABASE_URL is not set");
@@ -34,11 +36,13 @@ public class DatabaseConnection {
          String username = "postgres";
          String password = "03_0431A";//ileco1_amfm /**/
          Class.forName("org.postgresql.Driver");
-         return DriverManager.getConnection(url);
-         //return DriverManager.getConnection(url, username, password);
+         //return DriverManager.getConnection(url);
+         return DriverManager.getConnection(url, username, password);
      }
     public Connection getConnection2() throws Exception {
-    	 /**/ String url = System.getenv("DATABASE_URL");
+    	 /**/ String url = System.getenv("DB_URL");
+    	 String username = System.getenv("DB_USER");
+    	 String password = System.getenv("DB_PASSWORD");
 
          if (url == null || url.isEmpty()) {
              throw new RuntimeException("DATABASE_URL is not set");
@@ -47,7 +51,7 @@ public class DatabaseConnection {
          String username = "postgres";
          String password = "03_0431A";//ileco1_amfm /**/
          Class.forName("org.postgresql.Driver");
-         return DriverManager.getConnection(url);
-         //return DriverManager.getConnection(url, username, password);
+         //return DriverManager.getConnection(url);
+         return DriverManager.getConnection(url, username, password);
     }
 }
