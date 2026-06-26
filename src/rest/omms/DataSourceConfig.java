@@ -46,7 +46,7 @@ public class DataSourceConfig implements ServletContextListener {
         config.setJdbcUrl(url);
         config.setUsername(username);
         config.setPassword(password);/**/
-        config.setMaximumPoolSize(30); // Set the maximum pool size
+        config.setMaximumPoolSize(10); // Set the maximum pool size
         config.setMinimumIdle(5); // Set the minimum idle connections
         config.setIdleTimeout(10000);
         config.setConnectionTimeout(10000);
