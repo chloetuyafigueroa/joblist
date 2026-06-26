@@ -74,7 +74,7 @@ public class iGIS extends HttpServlet {
 		}/**/
     	//smsModule.startListening(); 
     	 //smsModule.startSMSListening();
-		ruN() ; 
+		//ruN() ; 
 		 
 	}
 	  public static void main(String[] args) throws IllegalAccessException {
