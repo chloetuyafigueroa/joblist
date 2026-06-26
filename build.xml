@@ -1,4 +1,4 @@
-<project name="Omms" default="war" basedir=".">
+<project name="Joblist" default="war" basedir=".">
 
     <property name="src.dir" value="src"/>
     <property name="web.dir" value="WebContent"/>
