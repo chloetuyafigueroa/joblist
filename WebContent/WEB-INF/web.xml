@@ -110,13 +110,5 @@
       <url-pattern>/rest/*</url-pattern> 
    </servlet-mapping>   
    
-<filter>
-    <filter-name>InvalidRequestFilter</filter-name>
-    <filter-class>rest.omms.InvalidRequestFilter</filter-class>
-</filter>
 
-<filter-mapping>
-    <filter-name>InvalidRequestFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-</filter-mapping>
 </web-app>
