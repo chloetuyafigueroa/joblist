@@ -547,14 +547,14 @@ public static String converter(String i) {
 
 
 /**/public static void runFCM() throws IOException, ServletException {
-	FCMServlet servlet = new FCMServlet();
+	//FCMServlet servlet = new FCMServlet();
     //servlet.initializeFirebase();
-    String absolutePath = "WebContent/google-services.json";
-    servlet.initializeFirebase(absolutePath);
+    //String absolutePath = "WebContent/google-services.json";
+    //servlet.initializeFirebase(absolutePath);
     Map<String, String> data = new HashMap<>();
     data.put("title", "FCM");
     data.put("body", "This is a custom notification body.");
-
+    FCMServlet.initializeFirebase();
     FCMServlet.sendNotification("omms", data);
 }/**/
 public static String smstest="omms\\09778572405230630093941230630093955\\*ecf_chloe\\1120130400506007018090100200300400\\high\\*\\*\\*\\*\\10.85926957\\122.3694992\\*";

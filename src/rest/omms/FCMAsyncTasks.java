@@ -17,7 +17,6 @@ import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.AndroidConfig;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
 import com.google.firebase.messaging.FirebaseMessagingException;
 
 public class FCMAsyncTasks {
@@ -100,11 +99,13 @@ public class FCMAsyncTasks {
     }
 
     public static void runFCM(String notificationId,Map<String, String> map) throws IOException, ServletException {
-    	FCMServlet servlet = new FCMServlet();
+    	//FCMServlet servlet = new FCMServlet();
         //servlet.initializeFirebase();
-        String absolutePath = "WebContent/google-services.json";
-        servlet.initializeFirebase(absolutePath);
+        //String absolutePath = "WebContent/google-services.json";
+        //servlet.initializeFirebase(absolutePath);
+        FCMServlet.initializeFirebase();
         FCMServlet.sendNotification(notificationId, map);
+        
     }
     /**
      * @throws IOException

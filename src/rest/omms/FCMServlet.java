@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,20 +39,35 @@ public class FCMServlet extends HttpServlet {
         super.init();
         String relativePath = "/google-services.json";
         String absolutePath = getServletContext().getRealPath(relativePath);
-        initializeFirebase(absolutePath);
+        initializeFirebase();
     }
 
-    @SuppressWarnings("deprecation") void initializeFirebase(String absolutePath) {
-        if (FirebaseApp.getApps().isEmpty()) {
-            try (FileInputStream serviceAccount = new FileInputStream(absolutePath)) {
-                FirebaseOptions options = new FirebaseOptions.Builder()
-                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                        .setDatabaseUrl("https://omms-cdce8.appspot.com") // Replace with your database URL
-                        .build();
-                FirebaseApp.initializeApp(options);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to initialize Firebase", e);
+    @SuppressWarnings("deprecation")
+    public static void initializeFirebase() {
+        if (!FirebaseApp.getApps().isEmpty()) {
+            return;
+        }
+
+        try {
+            String firebaseJson = System.getenv("FIREBASE_SERVICE_ACCOUNT_JSON");
+
+            if (firebaseJson == null || firebaseJson.trim().isEmpty()) {
+                throw new RuntimeException("FIREBASE_SERVICE_ACCOUNT_JSON is not set");
             }
+
+            GoogleCredentials credentials = GoogleCredentials.fromStream(
+                new ByteArrayInputStream(firebaseJson.getBytes(StandardCharsets.UTF_8))
+            );
+
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(credentials)
+                    .setDatabaseUrl("https://omms-cdce8.firebaseio.com")
+                    .build();
+
+            FirebaseApp.initializeApp(options);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to initialize Firebase", e);
         }
     }
 
@@ -106,10 +123,10 @@ public class FCMServlet extends HttpServlet {
 
     public static void main(String[] args) throws IOException {
         // This method is mainly for testing purposes
-        FCMServlet servlet = new FCMServlet();
+        //FCMServlet servlet = new FCMServlet();
         //servlet.initializeFirebase();
-        String absolutePath = "WebContent/google-services.json";
-        servlet.initializeFirebase(absolutePath);
+        //String absolutePath = "WebContent/google-services.json";
+        initializeFirebase();
         Map<String, String> data = new HashMap<>();
         data.put("title", "FCM");
         data.put("body", "This is a custom notification body.");
