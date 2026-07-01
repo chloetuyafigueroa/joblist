@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -46,6 +47,17 @@ public class Main extends HttpServlet {
 		//public static String dbURL = "jdbc:postgresql:joblist?user=postgres&password=03_0431A"; //ileco1_amfm
 
   /* Initialize servlet. Use JNDI to look up a DataSource */
+	  public static DataSource dataSource = DataSourceConfig.getDataSource();
+		public static Connection con=getConnection();
+	    public static Connection getConnection() {
+	    	try {
+				return dataSource.getConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+	    }
 	  public static void main(String[] args) throws IOException, ServletException, SerialPortException {
 		  iGIS igis=new iGIS();
 		  igis.restart();
@@ -210,7 +222,7 @@ public class Main extends HttpServlet {
     /* Check if the user is valid */
     private boolean authenticate(String _uid, String _pwd) throws Exception {
 
-  	    Connection dbCon = null;
+  	    //Connection dbCon = null;
   	    ResultSet rs = null;
   	    //Connection c = null;
   	    //String dbURL = "jdbc:postgresql:joblist?user=postgres&password=03_0431A";
@@ -218,9 +230,9 @@ public class Main extends HttpServlet {
   	       //Class.forName("org.postgresql.Driver");
   	       System.out.println(_uid+":"+_pwd);
   	       //dbCon =  DriverManager.getConnection(dbURL);
-  	       dbCon=DatabaseConnection.getInstance().getConnection();
+  	       //dbCon=DatabaseConnection.getInstance().getConnection();
   	  
-  	      Statement s = dbCon.createStatement();
+  	      Statement s = con.createStatement();
   	      rs = s.executeQuery("select * from users where id = '"
   	              + _uid + "' and pwd = '" + _pwd + "'");
   	      return (rs.next());
@@ -268,12 +280,12 @@ public class Main extends HttpServlet {
 	  	
 	    List<User4> user_data = new ArrayList<>();
 	    //List<> userList = new Gson().fromJSON(jsonPerson, new TypeToken<List<Person>>() {}getType());
-	    Connection dbCon = null;
+	    //Connection dbCon = null;
 	    try {
 	       //Class.forName("org.postgresql.Driver");
 	       //dbCon = DriverManager.getConnection(dbURL);
-	       dbCon=DatabaseConnection.getInstance().getConnection();
-	       Statement stmt = dbCon.createStatement();
+	       //dbCon=DatabaseConnection.getInstance().getConnection();
+	       Statement stmt = con.createStatement();
 	       
 	       rs = stmt.executeQuery( "SELECT * FROM USERS WHERE ID='"+uname+"'"); //
 	       while ( rs.next() ) {

@@ -37,8 +37,8 @@ public class FCMServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        String relativePath = "/google-services.json";
-        String absolutePath = getServletContext().getRealPath(relativePath);
+       // String relativePath = "/google-services.json";
+        //String absolutePath = getServletContext().getRealPath(relativePath);
         initializeFirebase();
     }
 
