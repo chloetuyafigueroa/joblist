@@ -52,7 +52,12 @@ public class iGIS extends HttpServlet {
         //MetaData.smsModule.disconnect();
         init();  // Reinitialize
     }
-	
+	@Override
+	public void destroy() {
+	    if (executor != null) {
+	        executor.shutdownNow();
+	    }
+	}
 	static int counter=1;
 	public void init() {
 	/** SmsListener smsListener=new SmsListener("COM4");
@@ -74,7 +79,10 @@ public class iGIS extends HttpServlet {
 		}/**/
     	//smsModule.startListening(); 
     	 //smsModule.startSMSListening();
-		//ruN() ; 
+		if (executor == null || executor.isShutdown()) {
+	        executor = Executors.newScheduledThreadPool(2);
+	        ruN();
+	    }
 		 
 	}
 	  public static void main(String[] args) throws IllegalAccessException {
@@ -98,18 +106,26 @@ public class iGIS extends HttpServlet {
 	  public static String message="omms\\09778572405230630093941230630093955\\*ecf_chloe\\1120130400506007018090100200300400\\high\\*\\*\\*\\*\\10.85926957\\122.3694992\\*";
 	  public static String phone="09778562402";
 	  public static String sp="COM4";  
+	  private static ScheduledExecutorService executor;
 	  public static void ruN() {
 		//initializeLogger(); 
 		  //String sp=serialPort();
 		  
 		  
 		  
-		  ScheduledThreadPoolExecutor executor=new ScheduledThreadPoolExecutor(2);
+		   executor=new ScheduledThreadPoolExecutor(2);
 		  	  executor.scheduleAtFixedRate(new Runnable() {
 		  		  public void run() {
 		  			//SMSTranceiver.deleteAllSMS(sp);
-		  			System.out.println("From iGIS");		
-		  			/**/
+		  			System.out.println("From iGIS");	
+		  			
+		  			
+		  			try {
+		                GenericSyncService.syncAll();
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		            }
+		  			/**
 		  			//HikariCPStatus();			
 	  			       //if(counter<5) {
 	  			    	   System.out.println("reading inbox....");		
@@ -119,7 +135,7 @@ public class iGIS extends HttpServlet {
 										| SQLException e) {
 									System.out.println("Error:"+e);	 
 								}
-	  			     /**/      	//counter++;
+	  			     /**     	//counter++;
 	  			       //}else {
 	  			    	   		System.out.println("sending mode....");	
 	  			            	System.out.println(sp);
@@ -131,7 +147,7 @@ public class iGIS extends HttpServlet {
 		  						
 		  			  	}
 		  		  
-		  		  } , 1, 30, TimeUnit.SECONDS);
+		  		  }, 30, 60, TimeUnit.SECONDS);
 		  /**/
 	  }
 	  /**public static void HikariCPStatus(){
