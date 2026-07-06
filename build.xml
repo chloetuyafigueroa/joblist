@@ -13,7 +13,7 @@
 
     <target name="compile">
         <mkdir dir="${build.dir}"/>
-        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" source="17" target="17">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="false" source="16" target="16">
             <classpath>
                 <fileset dir="${web.dir}/WEB-INF/lib">
                     <include name="*.jar"/>
