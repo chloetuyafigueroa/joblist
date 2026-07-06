@@ -125,7 +125,7 @@ public class iGIS extends HttpServlet {
 		            } catch (Exception e) {
 		                e.printStackTrace();
 		            }
-		  			/**
+		  			/**    ///
 		  			//HikariCPStatus();			
 	  			       //if(counter<5) {
 	  			    	   System.out.println("reading inbox....");		
