@@ -7,7 +7,7 @@ public class GenericSyncService {
 
     private static final String DB_URL = System.getenv("DB_URL");
     private static final String DB_USER = System.getenv("DB_USER");
-    private static final String DB_PASS = System.getenv("DB_PASSWORD");//
+    private static final String DB_PASS = System.getenv("DB_PASSWORD");
 
     private static final String REMOTE_DB_URL = System.getenv("REMOTE_DB_URL");
     private static final String REMOTE_DB_USER = System.getenv("REMOTE_DB_USER");
