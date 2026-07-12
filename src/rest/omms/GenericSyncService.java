@@ -41,12 +41,13 @@ public class GenericSyncService {
     ) throws SQLException {
 
         List<SyncChange> changes = getPendingChanges(sourceConn);
- /**
+
+        /*
         for (SyncChange change : changes) {
             try {
                 setSyncApply(targetConn, true);
 
-                if ("DELETE".equalsIgnoreCase(change.operation())) {
+                if ("DELETE".equalsIgnoreCase(change.getOperation())) {
                     applyDelete(targetConn, change);
                 } else {
                     applyUpsert(targetConn, change);
@@ -54,13 +55,14 @@ public class GenericSyncService {
 
                 setSyncApply(targetConn, false);
 
-                markDone(sourceConn, change.id());
+                markDone(sourceConn, change.getId());
 
             } catch (Exception e) {
                 setSyncApply(targetConn, false);
-                markError(sourceConn, change.id(), e.getMessage());
+                markError(sourceConn, change.getId(), e.getMessage());
             }
-        }/**/
+        }
+        */
     }
 
     private static List<SyncChange> getPendingChanges(Connection conn)
@@ -68,19 +70,18 @@ public class GenericSyncService {
 
         long start = System.currentTimeMillis();
 
-        String sql = """
-            SELECT id,
-                   table_name,
-                   operation,
-                   pk_data::text,
-                   row_data::text
-            FROM sync_monitor
-            WHERE status = 'pending'
-            ORDER BY created_at
-            LIMIT 100
-            """;
+        String sql =
+            "SELECT id, " +
+            "       table_name, " +
+            "       operation, " +
+            "       pk_data::text, " +
+            "       row_data::text " +
+            "FROM sync_monitor " +
+            "WHERE status = 'pending' " +
+            "ORDER BY created_at " +
+            "LIMIT 100";
 
-        List<SyncChange> list = new ArrayList<>();
+        List<SyncChange> list = new ArrayList<SyncChange>();
 
         System.out.println("==================================================");
         System.out.println("Checking sync_monitor for pending changes...");
@@ -89,10 +90,9 @@ public class GenericSyncService {
         System.out.println("==================================================");
 
         try (
-                PreparedStatement ps = conn.prepareStatement(sql);
-                ResultSet rs = ps.executeQuery()
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()
         ) {
-
             while (rs.next()) {
 
                 SyncChange change = new SyncChange(
@@ -107,10 +107,10 @@ public class GenericSyncService {
 
                 System.out.printf(
                         "[PENDING] ID=%d | TABLE=%s | OP=%s | PK=%s%n",
-                        change.id(),
-                        change.tableName(),
-                        change.operation(),
-                        change.pkDataJson()
+                        change.getId(),
+                        change.getTableName(),
+                        change.getOperation(),
+                        change.getPkDataJson()
                 );
             }
         }
@@ -126,21 +126,20 @@ public class GenericSyncService {
     }
 
     @SuppressWarnings("unused")
-	private static void applyUpsert(Connection conn, SyncChange change)
+    private static void applyUpsert(Connection conn, SyncChange change)
             throws SQLException {
 
-        String sql = """
-            SELECT apply_sync_upsert(
-                ?::text,
-                ?::jsonb,
-                ?::jsonb
-            )
-        """;
+        String sql =
+            "SELECT apply_sync_upsert( " +
+            "    ?::text, " +
+            "    ?::jsonb, " +
+            "    ?::jsonb " +
+            ")";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, change.tableName());
-            ps.setString(2, change.pkDataJson());
-            ps.setString(3, change.rowDataJson());
+            ps.setString(1, change.getTableName());
+            ps.setString(2, change.getPkDataJson());
+            ps.setString(3, change.getRowDataJson());
             ps.execute();
         }
     }
@@ -148,30 +147,28 @@ public class GenericSyncService {
     private static void applyDelete(Connection conn, SyncChange change)
             throws SQLException {
 
-        String sql = """
-            SELECT apply_sync_delete(
-                ?::text,
-                ?::jsonb
-            )
-        """;
+        String sql =
+            "SELECT apply_sync_delete( " +
+            "    ?::text, " +
+            "    ?::jsonb " +
+            ")";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, change.tableName());
-            ps.setString(2, change.pkDataJson());
+            ps.setString(1, change.getTableName());
+            ps.setString(2, change.getPkDataJson());
             ps.execute();
         }
     }
 
     @SuppressWarnings("unused")
-	private static void markDone(Connection conn, long id)
+    private static void markDone(Connection conn, long id)
             throws SQLException {
 
-        String sql = """
-            UPDATE sync_monitor
-            SET status = 'done',
-                processed_at = now()
-            WHERE id = ?
-        """;
+        String sql =
+            "UPDATE sync_monitor " +
+            "SET status = 'done', " +
+            "    processed_at = now() " +
+            "WHERE id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setLong(1, id);
@@ -182,12 +179,11 @@ public class GenericSyncService {
     private static void markError(Connection conn, long id, String error)
             throws SQLException {
 
-        String sql = """
-            UPDATE sync_monitor
-            SET status = 'error',
-                error_message = ?
-            WHERE id = ?
-        """;
+        String sql =
+            "UPDATE sync_monitor " +
+            "SET status = 'error', " +
+            "    error_message = ? " +
+            "WHERE id = ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, error);
@@ -200,18 +196,52 @@ public class GenericSyncService {
             throws SQLException {
 
         try (PreparedStatement ps = conn.prepareStatement(
-            "SELECT set_config('app.sync_apply', ?, true)"
+                "SELECT set_config('app.sync_apply', ?, true)"
         )) {
             ps.setString(1, value ? "true" : "false");
             ps.execute();
         }
     }
 
-    private record SyncChange(
-        long id,
-        String tableName,
-        String operation,
-        String pkDataJson,
-        String rowDataJson
-    ) {}
+    private static class SyncChange {
+        private final long id;
+        private final String tableName;
+        private final String operation;
+        private final String pkDataJson;
+        private final String rowDataJson;
+
+        public SyncChange(
+                long id,
+                String tableName,
+                String operation,
+                String pkDataJson,
+                String rowDataJson
+        ) {
+            this.id = id;
+            this.tableName = tableName;
+            this.operation = operation;
+            this.pkDataJson = pkDataJson;
+            this.rowDataJson = rowDataJson;
+        }
+
+        public long getId() {
+            return id;
+        }
+
+        public String getTableName() {
+            return tableName;
+        }
+
+        public String getOperation() {
+            return operation;
+        }
+
+        public String getPkDataJson() {
+            return pkDataJson;
+        }
+
+        public String getRowDataJson() {
+            return rowDataJson;
+        }
+    }
 }

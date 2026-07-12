@@ -1,4 +1,4 @@
-FROM eclipse-temurin:16-jdk AS build
+FROM eclipse-temurin:1.8-jdk AS build
 
 RUN apt-get update && apt-get install -y ant && rm -rf /var/lib/apt/lists/*
 
@@ -8,7 +8,7 @@ COPY . .
 RUN ant war
 RUN jar tf /app/dist/Joblist.war > /tmp/war_check.txt
 
-FROM tomcat:9-jdk17
+FROM tomcat:8.5-jdk1.8
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
