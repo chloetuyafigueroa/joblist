@@ -86,7 +86,7 @@ public class iGIS extends HttpServlet {
 		 
 	}
 	  public static void main(String[] args) throws IllegalAccessException {
-		  //ruN();
+		  ruN();
 		  
 		  /**  try {
 			plotterJSONtoItemValues(jo);
