@@ -42,7 +42,7 @@ public class GenericSyncService {
 
         List<SyncChange> changes = getPendingChanges(sourceConn);
 
-        /*
+        /**/
         for (SyncChange change : changes) {
             try {
                 setSyncApply(targetConn, true);
@@ -50,6 +50,7 @@ public class GenericSyncService {
                 if ("DELETE".equalsIgnoreCase(change.getOperation())) {
                     applyDelete(targetConn, change);
                 } else {
+                	//System.out.println("...."+sourceName);
                     applyUpsert(targetConn, change);
                 }
 
@@ -62,7 +63,7 @@ public class GenericSyncService {
                 markError(sourceConn, change.getId(), e.getMessage());
             }
         }
-        */
+        /**/
     }
 
     private static List<SyncChange> getPendingChanges(Connection conn)
@@ -78,7 +79,7 @@ public class GenericSyncService {
             "       row_data::text " +
             "FROM sync_monitor " +
             "WHERE status = 'pending' " +
-            "ORDER BY created_at " +
+            "ORDER BY created_at DESC " +
             "LIMIT 100";
 
         List<SyncChange> list = new ArrayList<SyncChange>();
@@ -128,9 +129,10 @@ public class GenericSyncService {
     @SuppressWarnings("unused")
     private static void applyUpsert(Connection conn, SyncChange change)
             throws SQLException {
-
+    	//System.out.println("from applyUpsert");
+//System.out.println(conn+":"+change.getPkDataJson()+":"+change.getRowDataJson());
         String sql =
-            "SELECT apply_sync_upsert( " +
+            "SELECT converter.apply_sync_upsert( " +
             "    ?::text, " +
             "    ?::jsonb, " +
             "    ?::jsonb " +
@@ -141,6 +143,8 @@ public class GenericSyncService {
             ps.setString(2, change.getPkDataJson());
             ps.setString(3, change.getRowDataJson());
             ps.execute();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -148,7 +152,7 @@ public class GenericSyncService {
             throws SQLException {
 
         String sql =
-            "SELECT apply_sync_delete( " +
+            "SELECT converter.apply_sync_delete( " +
             "    ?::text, " +
             "    ?::jsonb " +
             ")";
@@ -157,6 +161,8 @@ public class GenericSyncService {
             ps.setString(1, change.getTableName());
             ps.setString(2, change.getPkDataJson());
             ps.execute();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
