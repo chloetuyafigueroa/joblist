@@ -1,26 +1,18 @@
-# Build stage
 FROM eclipse-temurin:8-jdk AS build
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends ant \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ant && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY . .
 
 RUN ant war
-RUN test -f /app/dist/Joblist.war
 RUN jar tf /app/dist/Joblist.war > /tmp/war_check.txt
 
-
-# Runtime stage
 FROM tomcat:8.5-jdk8
 
 RUN rm -rf /usr/local/tomcat/webapps/*
 
-COPY --from=build \
-    /app/dist/Joblist.war \
-    /usr/local/tomcat/webapps/Joblist.war
+COPY --from=build /app/dist/Joblist.war /usr/local/tomcat/webapps/Joblist.war
 
 EXPOSE 8080
 
