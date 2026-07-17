@@ -81,7 +81,7 @@ public class iGIS extends HttpServlet {
     	 //smsModule.startSMSListening();
 		if (executor == null || executor.isShutdown()) {
 	        executor = Executors.newScheduledThreadPool(2);
-	        ruN();
+	        //ruN();
 	    }
 		 
 	}
