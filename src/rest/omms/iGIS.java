@@ -38,7 +38,7 @@ public class iGIS extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static final String SYNC_ENABLED = System.getenv("SYNC_ENABLED");
+	private static String SYNC_ENABLED = System.getenv("SYNC_ENABLED");
 	private static final long serialVersionUID = 1L;
 	//public static DataSource dataSource = DataSourceConfig.getDataSource();
 	//private static final Logger log = Logger.getLogger( iGIS.class.getName());
@@ -80,7 +80,7 @@ public class iGIS extends HttpServlet {
 		}/**/
     	//smsModule.startListening(); 
     	 //smsModule.startSMSListening();
-		if (executor == null || executor.isShutdown() ||SYNC_ENABLED.equals("TRUE")) {
+		if ((executor == null || executor.isShutdown()) && SYNC_ENABLED.equals("TRUE")) {
 	        executor = Executors.newScheduledThreadPool(2);
 	        ruN();
 	    }
@@ -120,9 +120,11 @@ public class iGIS extends HttpServlet {
 		  			//SMSTranceiver.deleteAllSMS(sp);
 		  			System.out.println("From iGIS");	
 		  			
-		  			
+		  			SYNC_ENABLED = System.getenv("SYNC_ENABLED");
 		  			try {
-		                GenericSyncService.syncAll();
+		  				if(SYNC_ENABLED.equals("TRUE")) {
+		  					GenericSyncService.syncAll();
+		  				}
 		            } catch (Exception e) {
 		                e.printStackTrace();
 		            }
