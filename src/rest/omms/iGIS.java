@@ -80,7 +80,7 @@ public class iGIS extends HttpServlet {
 		}/**/
     	//smsModule.startListening(); 
     	 //smsModule.startSMSListening();
-		if ((executor == null || executor.isShutdown()) && SYNC_ENABLED.equals("TRUE")) {
+		if (executor == null || executor.isShutdown()) {
 	        executor = Executors.newScheduledThreadPool(2);
 	        ruN();
 	    }
@@ -121,6 +121,7 @@ public class iGIS extends HttpServlet {
 		  			System.out.println("From iGIS");	
 		  			
 		  			SYNC_ENABLED = System.getenv("SYNC_ENABLED");
+		  			System.out.println("SYNC_ENABLED="+SYNC_ENABLED);	
 		  			try {
 		  				if(SYNC_ENABLED.equals("TRUE")) {
 		  					GenericSyncService.syncAll();
