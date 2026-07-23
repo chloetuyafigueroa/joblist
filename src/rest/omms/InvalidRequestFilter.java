@@ -45,6 +45,7 @@ public class InvalidRequestFilter implements Filter {
         boolean allowedOrigin =
             "https://omms-production-f8de.up.railway.app"
                 .equals(origin)
+            || "https://omms-805402377067.asia-southeast1.run.app".equals(origin)
             || "http://localhost:8080".equals(origin);
 
         if (allowedOrigin) {
