@@ -1,57 +1,48 @@
 steps:
+  # Build Omms.war using Ant
+  - name: 'eclipse-temurin:17-jdk'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        apt-get update
+        apt-get install -y ant
+        ant clean war
 
-#---------------------------------------------------
-# Build WAR using Ant
-#---------------------------------------------------
-- name: eclipse-temurin:17-jdk
-  entrypoint: bash
-  args:
-    - -c
-    - |
-      apt-get update
-      apt-get install -y ant
-      ant clean war
+  # Build the OMMS Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - -t
+      - asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/omms:$SHORT_SHA
+      - .
 
-#---------------------------------------------------
-# Build Docker Image
-#---------------------------------------------------
-- name: gcr.io/cloud-builders/docker
-  args:
-    - build
-    - -t
-    - asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/joblist:$SHORT_SHA
-    - .
+  # Push the image to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/omms:$SHORT_SHA
 
-#---------------------------------------------------
-# Push Docker Image
-#---------------------------------------------------
-- name: gcr.io/cloud-builders/docker
-  args:
-    - push
-    - asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/joblist:$SHORT_SHA
-
-#---------------------------------------------------
-# Deploy Cloud Run
-#---------------------------------------------------
-- name: gcr.io/google.com/cloudsdktool/cloud-sdk
-  entrypoint: gcloud
-  args:
-    - run
-    - deploy
-    - joblist
-    - --image=asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/joblist:$SHORT_SHA
-    - --region=asia-southeast1
-    - --platform=managed
-    - --allow-unauthenticated
-    - --port=8080
-    - --memory=1Gi
-    - --cpu=1
-    - --timeout=300
-    - --min-instances=1
-    - --max-instances=1
+  # Deploy the image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - omms
+      - --image=asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/omms:$SHORT_SHA
+      - --region=asia-southeast1
+      - --platform=managed
+      - --allow-unauthenticated
+      - --port=8080
+      - --memory=512Mi
+      - --cpu=1
+      - --timeout=300
+      - --min-instances=0
+      - --max-instances=3
 
 images:
-- asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/joblist:$SHORT_SHA
+  - asia-southeast1-docker.pkg.dev/$PROJECT_ID/omms-repo/omms:$SHORT_SHA
 
 options:
   logging: CLOUD_LOGGING_ONLY
