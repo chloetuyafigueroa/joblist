@@ -40,6 +40,7 @@ public class DataSourceConfig implements ServletContextListener {
         String url=System.getenv("DB_URL");
         String username = System.getenv("DB_USER");
    	 	String password = System.getenv("DB_PASSWORD");
+   	 String INSTANCE_CONNECTION_NAME = System.getenv("INSTANCE_CONNECTION_NAME");
         if (url == null || url.isEmpty()) {
             throw new RuntimeException("DATABASE_URL is not set");
         }
@@ -51,6 +52,10 @@ public class DataSourceConfig implements ServletContextListener {
         config.setIdleTimeout(10000);
         config.setConnectionTimeout(10000);
         config.setMaxLifetime(30000);
+        config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.postgres.SocketFactory");
+        config.addDataSourceProperty("cloudSqlInstance", INSTANCE_CONNECTION_NAME);
+        config.addDataSourceProperty("ipTypes", "PUBLIC,PRIVATE");
+        config.addDataSourceProperty("cloudSqlRefreshStrategy", "lazy");
 
         dataSource = new HikariDataSource(config);
     }
