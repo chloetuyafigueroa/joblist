@@ -1,9 +1,13 @@
 package rest.omms;
 
+import com.google.api.client.http.javanet.ConnectionFactory;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,7 +16,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
 
-public class DataSourceConfig implements ServletContextListener {
+public class DataSourceConfig implements ServletContextListener, ConnectionFactory {
     public void contextDestroyed(ServletContextEvent sce) {
         try {
             DriverManager.deregisterDriver(DriverManager.getDriver("jdbc:postgresql://"));
@@ -40,6 +44,7 @@ public class DataSourceConfig implements ServletContextListener {
         String url=System.getenv("DB_URL");
         String username = System.getenv("DB_USER");
    	 	String password = System.getenv("DB_PASSWORD");
+   	 	String INSTANCE_CONNECTION_NAME = System.getenv("INSTANCE_CONNECTION_NAME");
         if (url == null || url.isEmpty()) {
             throw new RuntimeException("DATABASE_URL is not set");
         }
@@ -51,6 +56,21 @@ public class DataSourceConfig implements ServletContextListener {
         config.setIdleTimeout(10000);
         config.setConnectionTimeout(10000);
         config.setMaxLifetime(30000);
+        
+        config.addDataSourceProperty("socketFactory", "com.google.cloud.sql.postgres.SocketFactory");
+        config.addDataSourceProperty("cloudSqlInstance", INSTANCE_CONNECTION_NAME);
+
+
+        // The ipTypes argument can be used to specify a comma delimited list of preferred IP types
+        // for connecting to a Cloud SQL instance. The argument ipTypes=PRIVATE will force the
+        // SocketFactory to connect with an instance's associated private IP.
+        config.addDataSourceProperty("ipTypes", "PUBLIC,PRIVATE");
+
+        // cloudSqlRefreshStrategy set to "lazy" is used to perform a
+        // refresh when needed, rather than on a scheduled interval.
+        // This is recommended for serverless environments to
+        // avoid background refreshes from throttling CPU.
+        config.addDataSourceProperty("cloudSqlRefreshStrategy", "lazy");
 
         dataSource = new HikariDataSource(config);
     }
@@ -86,6 +106,12 @@ public class DataSourceConfig implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public HttpURLConnection openConnection(URL arg0) throws IOException, ClassCastException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
