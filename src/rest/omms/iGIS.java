@@ -152,7 +152,7 @@ public class iGIS extends HttpServlet {
 		  			  	}
 		  		  
 		  		  }, 30, 60, TimeUnit.SECONDS);
-		  /**///test
+		  /**///
 	  }
 	  /**public static void HikariCPStatus(){
 		  	DataSourceConfig.monitorAndResetIfNeeded();
