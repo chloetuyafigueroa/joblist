@@ -42,9 +42,10 @@ public class DataSourceConfig implements ServletContextListener, ConnectionFacto
         config.setUsername("postgres");
         config.setPassword("03_0431A");/**/
         String url=System.getenv("DB_URL");
+        url=String.format("jdbc:postgresql:///%s", "joblist");
         String username = System.getenv("DB_USER");
    	 	String password = System.getenv("DB_PASSWORD");
-   	 	String INSTANCE_CONNECTION_NAME = System.getenv("INSTANCE_CONNECTION_NAME");
+   	 	String INSTANCE_CONNECTION_NAME = System.getenv("	");
         if (url == null || url.isEmpty()) {
             throw new RuntimeException("DATABASE_URL is not set");
         }
